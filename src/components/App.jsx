@@ -16,7 +16,8 @@ class App extends React.Component {
     };
 
     // invoke searchYoutube once App is initialized
-    this.onSearch();
+    // this.onSearch();
+    searchYoutube({query: 'dogs', max: 5, key: YOUTUBE_API_KEY,});
   }
 
   // make function for onClick of a videoListEntry
@@ -36,8 +37,8 @@ class App extends React.Component {
 
   onSearch() {
     var options = {
-      query: this.state.textEntered || 'dogs';
-      max: 6,
+      query: this.state.textEntered || 'dogs',
+      max: 5,
       key: YOUTUBE_API_KEY,
     };
 
@@ -45,15 +46,16 @@ class App extends React.Component {
     searchYoutube(options, (data) => {
       // callback: change the state of app to include resulting videos and player
       this.setState({
-        player: data[0],
-        videos: data.slice(1),
+        player: data.items[0],
+        videos: data.items.slice(1),
         textEntered: '',
       });
     });
   }
 
-  handleChange() {
+  handleChange(event) {
     // update textEntered state to match search box details
+    this.setState({ textEntered: event.target.value + event.key});
   }
 
   render() {
@@ -61,7 +63,7 @@ class App extends React.Component {
     <div>
       <nav className="navbar">
         <div className="col-md-6 offset-md-3">
-          <div><h5><Search func={this.onSearch}/></h5></div>
+          <div><h5><Search keyFunc={this.handleChange.bind(this)} clickFunc={this.onSearch.bind(this)}/></h5></div>
         </div>
       </nav>
       <div className="row">
