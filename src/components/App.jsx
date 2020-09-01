@@ -7,11 +7,24 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      // hold state for 6 positions: 5 videos in list, 1 in player
+      player: exampleVideoData[0],
+      videos: exampleVideoData.slice(1),
     };
   }
 
   // make function for onClick of a videoListEntry
+  onListItemClick(clickedVideo) {
+    // event.preventDefault();
+    // this = videoListEntry that was clicked
+    var oldPlayer = this.state.player;
+    var indexOfClickedVideo = this.state.videos.indexOf(clickedVideo);
+    this.state.videos.splice(indexOfClickedVideo, 1, oldPlayer);
+
+    this.setState({
+      // swap the player to the clicked video
+      player: clickedVideo,
+    });
+  }
     // if videoListEntry is selected, shuffle states: clicked video goes to player, others must change
 
   render() {
@@ -24,10 +37,10 @@ class App extends React.Component {
       </nav>
       <div className="row">
         <div className="col-md-7">
-          <div><h5><VideoPlayer video={exampleVideoData[0]} /></h5></div>
+          <div><h5><VideoPlayer video={this.state.player} /></h5></div>
         </div>
         <div className="col-md-5">
-          <div><h5><VideoList videos={exampleVideoData}/></h5></div>
+          <div><h5><VideoList videos={this.state.videos} func={this.onListItemClick.bind(this)}/></h5></div>
         </div>
       </div>
     </div>
