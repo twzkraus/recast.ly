@@ -18,7 +18,7 @@ class App extends React.Component {
     console.log('initializing app');
     // invoke searchYoutube once App is initialized
     // this.onSearch();
-    searchYouTube({query: 'dogs', max: 5, key: YOUTUBE_API_KEY});
+    searchYouTube();
   }
 
   // make function for onClick of a videoListEntry
@@ -31,7 +31,6 @@ class App extends React.Component {
   }
 
   onSearch() {
-    debugger;
     var options = {
       query: this.state.textEntered || 'dogs',
       max: 5,
