@@ -20,6 +20,7 @@ items:[] === list of results that match the search criteria
 */
 
 var searchYouTube = (options, callback = ()=>{}) => {
+  console.log('searching youtube');
   // required options: query (string to search), max (max # of videos to return), key (API key)
   // send GET request to youtube
   $.ajax({

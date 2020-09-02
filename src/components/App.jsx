@@ -2,32 +2,27 @@ import VideoList from './VideoList.js';
 import exampleVideoData from '../data/exampleVideoData.js';
 import VideoPlayer from './VideoPlayer.js';
 import Search from './Search.js';
-import searchYoutube from '../lib/searchYoutube.js';
+import searchYouTube from '../lib/searchYoutube.js';
 import YOUTUBE_API_KEY from '../config/youtube.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
+    // set player to null and videos to empty array for initialized state
     this.state = {
       player: exampleVideoData[0],
-      videos: exampleVideoData.slice(1),
+      videos: exampleVideoData,
       textEntered: '',
     };
-
+    console.log('initializing app');
     // invoke searchYoutube once App is initialized
     // this.onSearch();
-    searchYoutube({query: 'dogs', max: 5, key: YOUTUBE_API_KEY,});
+    searchYouTube({query: 'dogs', max: 5, key: YOUTUBE_API_KEY});
   }
 
   // make function for onClick of a videoListEntry
   onListItemClick(clickedVideo) {
-    // event.preventDefault();
-    // this = videoListEntry that was clicked
-    var oldPlayer = this.state.player;
-    var indexOfClickedVideo = this.state.videos.indexOf(clickedVideo);
-    this.state.videos.splice(indexOfClickedVideo, 1, oldPlayer);
-    // if videoListEntry is selected, shuffle states: clicked video goes to player, others must change
 
     this.setState({
       // swap the player to the clicked video
@@ -36,18 +31,19 @@ class App extends React.Component {
   }
 
   onSearch() {
+    debugger;
     var options = {
       query: this.state.textEntered || 'dogs',
       max: 5,
-      key: YOUTUBE_API_KEY,
+      key: YOUTUBE_API_KEY
     };
 
     // run searchYoutube with appropriate parameters
-    searchYoutube(options, (data) => {
+    searchYouTube(options, (data) => {
       // callback: change the state of app to include resulting videos and player
       this.setState({
-        player: data.items[0],
-        videos: data.items.slice(1),
+        player: null,
+        videos: data.items,
         textEntered: '',
       });
     });
